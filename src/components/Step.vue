@@ -22,7 +22,7 @@
 
 <script>
     export default {
-        props: ['step', 'stepcount', 'currentstep', 'picked'],
+        props: ['step', 'stepcount', 'currentstep', 'picked', 'rentDays'],
 
         computed: {
             active() {
@@ -35,6 +35,12 @@
 
             nextstep() {
                 if (this.picked.type === null)
+                    return true
+
+                if (this.currentstep == 2 && this.picked.product === null)
+                    return true
+
+                if (this.currentstep == 3 && this.rentDays === null || this.currentstep == 3 && this.rentDays <= 4)
                     return true
 
                 return (this.currentstep == this.stepcount)

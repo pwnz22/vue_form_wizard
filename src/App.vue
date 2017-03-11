@@ -14,7 +14,7 @@
                             <img class="img-responsive" :src="type.image" alt="">
                             <p>{{ type.title }}</p>
                             <p>
-                                <input type="radio" :value="index" v-model="picked.type" required>
+                                <input type="radio" :value="index" v-model="picked.type" @change="rentDays = null">
                             </p>
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                             <p>{{ product.model }}</p>
                             <p>{{ product.size }}</p>
                             <p>
-                                <input type="radio" :value="index" v-model="picked.product">
+                                <input type="radio" :value="index" v-model="picked.product" @change="rentDays = null">
                             </p>
                         </div>
                     </div>
@@ -59,6 +59,7 @@
                 :step="step"
                 :stepcount="steps.length"
                 :picked="picked"
+                :rent-days="rentDays"
                 :currentstep="currentstep"
                 @next-step="nextStep"
                 @prev-step="prevStep">
