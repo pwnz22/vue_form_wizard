@@ -39,17 +39,37 @@
                             <date-picker v-model="date" language="ru" placeholder="Выбрать начальную дату"></date-picker>
                         </li>
                         <li>
-                            <date-picker @selected="calculateTotalPrice" :value="date" language="ru" placeholder="Выбрать конечную дату"></date-picker>
+                            <date-picker @selected="calculateTotalPrice" v-model="endDate" language="ru" placeholder="Выбрать конечную дату"></date-picker>
                         </li>
                     </ul>
                 </div>
 
                 <div v-if="currentstep == 4">
                     <ul v-if="rentDays > 4">
-                        <li>Автобокс: {{ types[picked.type].title }}</li>
+                        <li>Автобокс: {{ products[picked.product].model }}</li>
                         <li>Срок аренды: {{ rentDays }}</li>
                         <li>Цена: {{ totalPrice }}</li>
                     </ul>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label id="name" class="col-md-1 control-label">ФИО</label>
+                            <div class="col-md-4">
+                                <input type="text" name="name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label id="phone" class="col-md-1 control-label">Телефон</label>
+                            <div class="col-md-4">
+                                <input type="text" name="phone" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label id="car_model" class="col-md-1 control-label">Марка</label>
+                            <div class="col-md-4">
+                                <input type="text" name="car_model" class="form-control">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -61,6 +81,7 @@
                 :picked="picked"
                 :rent-days="rentDays"
                 :currentstep="currentstep"
+                @add-maxrentdays="addMaxrentdays"
                 @next-step="nextStep"
                 @prev-step="prevStep">
             </step>
@@ -82,7 +103,9 @@
             return {
                 currentstep: 1,
 
-                date: new Date(),
+                date: moment().format(),
+
+                endDate: null,
 
                 rentDays: null,
 
@@ -178,6 +201,17 @@
                 let product = this.products[this.picked.product]
 
                 this.totalPrice = this.calculatePrice(type, this.rentDays) + this.calculatePrice(product, this.rentDays)
+
+            },
+
+            addMaxrentdays() {
+                let now = moment().add(5, 'days').format()
+                let type = this.types[this.picked.type]
+                let product = this.products[this.picked.product]
+
+                this.endDate = now
+                this.rentDays = 5
+                this.totalPrice = this.calculatePrice(type, this.rentDays) + this.calculatePrice(product,this.rentDays)
 
             }
         },

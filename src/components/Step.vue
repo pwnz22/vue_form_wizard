@@ -53,6 +53,9 @@
 
         methods: {
             nextStep: function() {
+                if (this.currentstep == 2)
+                    this.$emit('add-maxrentdays')
+
                 this.$emit('next-step')
             },
 
