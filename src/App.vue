@@ -1,34 +1,42 @@
 <template>
     <div id="app">
-        <div class="container">
+        <div class="container" v-if="!ordered">
             <step-navigation
                 :steps="steps"
                 :currentstep="currentstep">
             </step-navigation>
 
             <div class="step-body">
-
                 <div v-if="currentstep == 1">
                     <div class="row">
-                        <div class="col-md-2" v-for="(type, index) in types">
-                            <img class="img-responsive" :src="type.image" alt="">
-                            <p>{{ type.title }}</p>
-                            <p>
-                                <input type="radio" :value="index" v-model="picked.type" @change="rentDays = null">
-                            </p>
+                        <div class="col-md-3" v-for="(type, index) in types">
+                            <input :id="'step01-0' + index" type="radio" :value="index" v-model="picked.type">
+                            <label :for="'step01-0' + index">
+                                    <div class="thumbnail">
+                                        <img class="img-responsive" :src="type.image" :alt="type.title">
+                                        <span class="step01-title">
+                                            {{ type.title }}
+                                        </span>
+                                    </div>
+                            </label>
                         </div>
                     </div>
                 </div>
 
                 <div v-if="currentstep == 2">
                     <div class="row">
-                        <div class="col-md-3" v-for="(product, index) in products">
-                            <h3>{{ product.title }}</h3>
-                            <p>{{ product.model }}</p>
-                            <p>{{ product.size }}</p>
-                            <p>
-                                <input type="radio" :value="index" v-model="picked.product" @change="rentDays = null">
-                            </p>
+                        <div class="col-md-3" v-for="(product, index) in products" v-if="pickedMine(index)">
+                            <input :id="'step02-0' + index" type="radio" :value="index" v-model="picked.product">
+                            <label :for="'step02-0' + index">
+                                <div class="thumbnail">
+                                    <img class="img-responsive" :src="product.image" :alt="product.title">
+                                    <span class="step02-title">
+                                        <h3>{{ product.title }}</h3>
+                                        <p>{{ product.model }}</p>
+                                        <p>{{ product.size }}</p>
+                                    </span>
+                                </div>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -36,37 +44,56 @@
                 <div v-if="currentstep == 3">
                     <ul class="list-inline">
                         <li>
-                            <date-picker v-model="date" language="ru" placeholder="Выбрать начальную дату"></date-picker>
+                            <date-picker v-model="date" inputClass="form-control" @selected="changeStartDate" language="ru" placeholder="Выбрать начальную дату"></date-picker>
                         </li>
                         <li>
-                            <date-picker @selected="calculateTotalPrice" v-model="endDate" language="ru" placeholder="Выбрать конечную дату"></date-picker>
+                            <date-picker @selected="calculateTotalPrice" inputClass="form-control" v-model="endDate" language="ru" placeholder="Выбрать конечную дату"></date-picker>
                         </li>
                     </ul>
-                </div>
 
-                <div v-if="currentstep == 4">
-                    <ul v-if="rentDays > 4">
-                        <li>Автобокс: {{ products[picked.product].model }}</li>
-                        <li>Срок аренды: {{ rentDays }}</li>
-                        <li>Цена: {{ totalPrice }}</li>
-                    </ul>
+                    <div v-if="rentDays > 4" class="step03-info">
+                        <p>Срок аренды: {{ rentDays }}</p>
+                        <p>Цена {{ totalPrice }}</p>
+                    </div>
+                    <div v-else>
+                        <div class="alert alert-danger">
+                            Минимальный срок аренды от 5 дней.
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="form-group col-md-12">
                             <label id="name" class="col-md-1 control-label">ФИО</label>
                             <div class="col-md-4">
-                                <input type="text" name="name" class="form-control">
+                                <input type="text" name="name" class="form-control" v-model="formdata.name">
                             </div>
                         </div>
+
                         <div class="form-group col-md-12">
                             <label id="phone" class="col-md-1 control-label">Телефон</label>
                             <div class="col-md-4">
-                                <input type="text" name="phone" class="form-control">
+                                <input type="text" name="phone" class="form-control" v-model="formdata.phone">
                             </div>
                         </div>
+
                         <div class="form-group col-md-12">
-                            <label id="car_model" class="col-md-1 control-label">Марка</label>
+                            <label id="car_model" class="col-md-1 control-label">Марка автомобиля</label>
                             <div class="col-md-4">
-                                <input type="text" name="car_model" class="form-control">
+                                <input type="text" name="car_mark" class="form-control" v-model="formdata.mark">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label id="car_model" class="col-md-1 control-label">Модель автомобиля</label>
+                            <div class="col-md-4">
+                                <input type="text" name="car_model" class="form-control" v-model="formdata.model">
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label id="car_model" class="col-md-1 control-label">Год выпуска автомобиля</label>
+                            <div class="col-md-4">
+                                <input type="text" name="car_year" class="form-control" v-model="formdata.year">
                             </div>
                         </div>
                     </div>
@@ -83,8 +110,13 @@
                 :currentstep="currentstep"
                 @add-maxrentdays="addMaxrentdays"
                 @next-step="nextStep"
-                @prev-step="prevStep">
+                @prev-step="prevStep"
+                @send-order="sendEmail">
+
             </step>
+        </div>
+        <div class="alert alert-succes" v-else>
+            <h2>Заказ успешно принят!</h2>
         </div>
     </div>
 </template>
@@ -93,6 +125,7 @@
     import Step from './components/Step'
     import StepNavigation from './components/StepNavigation'
     import DatePicker from 'vuejs-datepicker';
+    import { data } from './data'
     import moment from 'moment'
 
     export default {
@@ -104,6 +137,8 @@
                 currentstep: 1,
 
                 date: moment().format(),
+
+                email: null,
 
                 endDate: null,
 
@@ -117,28 +152,18 @@
                 totalPrice: 0,
 
                 types: null,
-
                 products: null,
+                steps: null,
 
-                steps: [
-                    {
-                        id: 1,
-                        title: 'Тип',
-                        icon_class: "fa fa-map-marker"
-                    }, {
-                        id: 2,
-                        title: 'Вид',
-                        icon_class: "fa fa-folder-open"
-                    }, {
-                        id: 3,
-                        title: 'Даты',
-                        icon_class: "fa fa-paper-plane"
-                    }, {
-                        id: 4,
-                        title: 'Отправить',
-                        icon_class: "fa fa-paper-plane"
-                    },
-                ]
+                formdata: {
+                    name: null,
+                    phone: null,
+                    mark: null,
+                    model: null,
+                    year: null
+                },
+
+                ordered: false
             }
         },
 
@@ -153,11 +178,20 @@
             },
 
             pullData() {
-                axios.get('data.json')
+                axios.get('/wp-content/themes/launch/js/calc/data.json')
                     .then(response => {
                         this.types = response.data.types
                         this.products = response.data.products
+                        this.steps = response.data.steps
+                        this.email = response.data.email
                     })
+            },
+
+            pickedMine(i) {
+                if (i == 15 && this.picked.type == 6)
+                    return false
+
+                return true
             },
 
             nextStep() {
@@ -171,7 +205,6 @@
                 function between(x, min, max) {
                     return x >= min && x <= max
                 }
-                //let type = this.types[this.picked.type]
                 let calculatedPrice = ''
 
                 if (diff < type.maxRentDay)
@@ -188,6 +221,12 @@
                 return calculatedPrice
             },
 
+            calc() {
+                let type = this.types[this.picked.type]
+                let product = this.products[this.picked.product]
+                this.totalPrice = this.calculatePrice(type, this.rentDays) + this.calculatePrice(product, this.rentDays)
+            },
+
             calculateTotalPrice(endTime) {
                 let startTime = moment(this.date)
                 endTime = moment(endTime)
@@ -195,24 +234,40 @@
                 this.rentDays += 1
 
                 if (this.rentDays <= 4)
-                    return alert('Мини')
+                    return
 
-                let type = this.types[this.picked.type]
-                let product = this.products[this.picked.product]
+                this.calc()
+            },
 
-                this.totalPrice = this.calculatePrice(type, this.rentDays) + this.calculatePrice(product, this.rentDays)
+            changeStartDate(e) {
+                this.date = moment(e).add(5, 'days').format()
+                this.endDate = this.date
+                this.rentDays = 5
 
+                this.calc()
             },
 
             addMaxrentdays() {
-                let now = moment().add(5, 'days').format()
-                let type = this.types[this.picked.type]
-                let product = this.products[this.picked.product]
-
+                let now = moment(this.date).add(5, 'days').format()
                 this.endDate = now
                 this.rentDays = 5
-                this.totalPrice = this.calculatePrice(type, this.rentDays) + this.calculatePrice(product,this.rentDays)
 
+                this.calc()
+            },
+
+            sendEmail() {
+                const data = {
+                    'Имя': this.formdata.name,
+                    'Телефон': this.formdata.phone,
+                    'Марка автомобиля': this.formdata.mark,
+                    'Модель автомобиля': this.formdata.model,
+                    'Год выпуска автомобиля': this.formdata.year,
+                    'Срок Аренды': this.rentDays,
+                    'Цена': this.totalPrice,
+                    _subject: "Заказ с сайта arenda-boxteam.ru"
+                }
+                axios.post(`https://formspree.io/${this.email}`, data)
+                    .then(response => this.ordered = true)
             }
         },
 

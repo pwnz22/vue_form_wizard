@@ -3,7 +3,7 @@ import App from './App'
 import axios from 'axios'
 window.axios = axios
 
-axios.defaults.baseURL = 'https://boxteam-c2c70.firebaseio.com/'
+// axios.defaults.baseURL = 'https://boxteam-c2c70.firebaseio.com/'
 Vue.config.productionTip = false
 
 new Vue({

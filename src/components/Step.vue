@@ -1,19 +1,21 @@
 <template>
     <div class="step-wrapper" :class="{ 'active': active }">
         <button
-                class="btn btn-primary"
+                class="btn btn-primary prev-step"
                 @click="prevStep"
                 :disabled="firststep">
             Назад
         </button>
         <button
-                class="btn btn-primary"
+                class="btn btn-primary next-step"
                 @click="nextStep"
                 :disabled="nextstep">
             Вперед
         </button>
         <button
                 class="btn btn-primary"
+                :disabled="rentDays <= 4"
+                @click="sendOrder"
                 v-if="laststep">
                 Отправить
         </button>
@@ -52,15 +54,19 @@
         },
 
         methods: {
-            nextStep: function() {
+            nextStep() {
                 if (this.currentstep == 2)
                     this.$emit('add-maxrentdays')
 
                 this.$emit('next-step')
             },
 
-            prevStep: function() {
+            prevStep() {
                 this.$emit('prev-step')
+            },
+
+            sendOrder() {
+                this.$emit('send-order')
             }
         }
     }

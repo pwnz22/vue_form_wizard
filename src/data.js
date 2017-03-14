@@ -1,10 +1,10 @@
 export const data = {
     types: [{
         id: 1,
-        by: 'Атлант',
-        title: 'СТАНДАРТНЫЙ И ИНТЕГИРОВАННЫЙ РЕЙЛИНГ (прямоугольная дуга)',
-        descr: 'Стандартный рейлинг - рейки вдоль крыши. Между крышей и рейлингом есть просвет. Интегрированный рейлинг - рейки вдоль крыши. Между крышей и рейлингом нет просвета.',
-        image: 'http://placehold.it/200x200',
+        by: "Атлант",
+        title: "СТАНДАРТНЫЙ И ИНТЕГИРОВАННЫЙ РЕЙЛИНГ (прямоугольная дуга)",
+        descr: "Стандартный рейлинг - рейки вдоль крыши. Между крышей и рейлингом есть просвет. Интегрированный рейлинг - рейки вдоль крыши. Между крышей и рейлингом нет просвета.",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step01-01.jpg",
         maxRentDay: 5,
         defaultPrice: {
             days: 45,
@@ -19,9 +19,9 @@ export const data = {
         ],
     }, {
         id: 2,
-        title: 'СТАНДАРТНЫЙ И ИНТЕГИРОВАННЫЙ РЕЙЛИНГ (прямоугольная дуга)',
-        descr: 'Стандартный рейлинг - рейки вдоль крыши. Между крышей и рейлингом есть просвет. Интегрированный рейлинг - рейки вдоль крыши. Между крышей и рейлингом нет просвета.',
-        image: 'http://placehold.it/200x200',
+        title: "СТАНДАРТНЫЙ И ИНТЕГИРОВАННЫЙ РЕЙЛИНГ (прямоугольная дуга)",
+        descr: "Стандартный рейлинг - рейки вдоль крыши. Между крышей и рейлингом есть просвет. Интегрированный рейлинг - рейки вдоль крыши. Между крышей и рейлингом нет просвета.",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step01-02.jpg",
         maxRentDay: 5,
         defaultPrice: {
             days: 45,
@@ -36,9 +36,9 @@ export const data = {
         ]
     }, {
         id: 3,
-        title: 'ГЛАДКАЯ КРЫША, ШТАТНЫЕ МЕСТА (аэродинамичная дуга)',
-        descr: 'Гладкая крыша - большинство современных автомобилей. Штатное место - пластиковые заглушки или сдвижные части под которыми находится штатное место (резьба и др.)',
-        image: 'http://placehold.it/200x200',
+        title: "ГЛАДКАЯ КРЫША, ШТАТНЫЕ МЕСТА (аэродинамичная дуга)",
+        descr: "Гладкая крыша - большинство современных автомобилей. Штатное место - пластиковые заглушки или сдвижные части под которыми находится штатное место (резьба и др.)",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step01-03.jpg",
         maxRentDay: 5,
         defaultPrice: {
             days: 45,
@@ -53,10 +53,10 @@ export const data = {
         ]
     }, {
         id: 4,
-        title: 'Велокрепление Thule FreeRide 532. (1 велосипед)',
-        descr: 'Простое и функциональное крепление для велосипедов, удовлетворяющее всем основным условиям',
+        title: "Велокрепление Thule FreeRide 532. (1 велосипед)",
+        descr: "Простое и функциональное крепление для велосипедов, удовлетворяющее всем основным условиям",
         maxRentDayDay: 5,
-        image: 'http://placehold.it/200x200',
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step01-04.jpg",
         maxRentDay: 5,
         defaultPrice: {
             days: 45,
@@ -71,9 +71,9 @@ export const data = {
         ]
     }, {
         id: 5,
-        title: 'Велокрепление Thule FreeRide 532. (1 велосипед)',
-        descr: 'Велокрепление для максимально быстрой и удобной установки велосипедов весом до 20 кг.',
-        image: 'http://placehold.it/200x200',
+        title: "Велокрепление Thule FreeRide 532. (1 велосипед)",
+        descr: "Велокрепление для максимально быстрой и удобной установки велосипедов весом до 20 кг.",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step01-05.jpg",
         maxRentDay: 5,
         defaultPrice: {
             days: 45,
@@ -88,9 +88,9 @@ export const data = {
         ]
     }, {
         id: 6,
-        title: 'Велокрепление Thule FreeRide 532. (1 велосипед)',
-        image: 'http://placehold.it/200x200',
-        descr: 'Проверенная, прочная, а также простая в эксплуатации и установке. Установка крепления возможна на прямоугольные, аэродинамические и на крыловидные поперечины',
+        title: "Велокрепление Thule FreeRide 532. (1 велосипед)",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step01-06.jpg",
+        descr: "Проверенная, прочная, а также простая в эксплуатации и установке. Установка крепления возможна на прямоугольные, аэродинамические и на крыловидные поперечины",
         maxRentDay: 5,
         defaultPrice: {
             days: 45,
@@ -103,14 +103,33 @@ export const data = {
             { min: 21, max: 29, price: 120 },
             { min: 30, max: 39, price: 90 }
         ]
+    }, {
+        id: 7,
+        by: "Свой",
+        title: "Свой",
+        descr: "Стандартный рейлинг - рейки вдоль крыши. Между крышей и рейлингом есть просвет. Интегрированный рейлинг - рейки вдоль крыши. Между крышей и рейлингом нет просвета.",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step01-07.jpg",
+        maxRentDay: 5,
+        defaultPrice: {
+            days: 45,
+            price: 50
+        },
+        rentDays: [
+            { min: 5, max: 6, price: 0 },
+            { min: 7, max: 13, price: 0 },
+            { min: 14, max: 20, price: 0 },
+            { min: 21, max: 29, price: 0 },
+            { min: 30, max: 39, price: 0 }
+        ]
     }],
 
     products: [{
         id: 1,
-        title: 'Атлант',
-        model: 'Classic 320',
+        title: "Атлант",
+        model: "Classic 320",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-01.jpg",
         volume: 320,
-        size: '130х78х36',
+        size: "130х78х36",
         maxRentDay: 5,
         defaultPrice: {
             days: 45,
@@ -125,10 +144,11 @@ export const data = {
         ]
     }, {
         id: 2,
-        title: 'Атлант',
-        model: 'Sport 431',
+        title: "Атлант",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-02.jpg",
+        model: "Sport 431",
         volume: 430,
-        size: '175х78х39',
+        size: "175х78х39",
         maxRentDay: 5,
         defaultPrice: {
             days: 45,
@@ -143,10 +163,11 @@ export const data = {
         ]
     }, {
         id: 3,
-        title: 'Sotra',
-        model: 'XT-450',
+        title: "Sotra",
+        model: "XT-450",
         volume: 450,
-        size: '192х78х39',
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-03.jpg",
+        size: "192х78х39",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -161,10 +182,11 @@ export const data = {
         ]
     }, {
         id: 4,
-        title: 'Saturn',
-        model: 'Saturn 460',
+        title: "Saturn",
+        model: "Saturn 460",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-04.jpg",
         volume: 460,
-        size: '175х82х42',
+        size: "175х82х42",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -179,10 +201,11 @@ export const data = {
         ]
     }, {
         id: 5,
-        title: 'Атлант',
-        model: 'Sport 501',
+        title: "Атлант",
+        model: "Sport 501",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-05.jpg",
         volume: 500,
-        size: '225х78х39',
+        size: "225х78х39",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -197,10 +220,11 @@ export const data = {
         ]
     }, {
         id: 6,
-        title: 'Thule',
-        model: 'Pacific 100',
+        title: "Thule",
+        model: "Pacific 100",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-06.jpg",
         volume: 380,
-        size: '140х90х40',
+        size: "140х90х40",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -215,10 +239,11 @@ export const data = {
         ]
     }, {
         id: 7,
-        title: 'Thule',
-        model: 'Pacific 200',
+        title: "Thule",
+        model: "Pacific 200",
         volume: 460,
-        size: '175х82х42',
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-07.jpg",
+        size: "175х82х42",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -233,10 +258,11 @@ export const data = {
         ]
     }, {
         id: 8,
-        title: 'Sotra',
-        model: 'Altro 460',
+        title: "Sotra",
+        model: "Altro 460",
         volume: 460,
-        size: '185х80х40',
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-08.jpg",
+        size: "185х80х40",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -251,10 +277,11 @@ export const data = {
         ]
     }, {
         id: 9,
-        title: 'Sotra',
-        model: 'Altro 500',
+        title: "Sotra",
+        model: "Altro 500",
         volume: 500,
-        size: '200х90х40',
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-09.jpg",
+        size: "200х90х40",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -269,10 +296,11 @@ export const data = {
         ]
     }, {
         id: 10,
-        title: 'Satillite',
-        model: 'Satellit 520',
+        title: "Satillite",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-10.jpg",
+        model: "Satellit 520",
         volume: 520,
-        size: '196x78x43',
+        size: "196x78x43",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -287,10 +315,11 @@ export const data = {
         ]
     }, {
         id: 11,
-        title: 'Neumann',
-        model: 'XXL',
+        title: "Neumann",
+        model: "XXL",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-11.jpg",
         volume: 650,
-        size: '210х90х44',
+        size: "210х90х44",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -305,10 +334,11 @@ export const data = {
         ]
     }, {
         id: 12,
-        title: 'Thule',
-        model: 'Motion 200',
+        title: "Thule",
+        model: "Motion 200",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-12.jpg",
         volume: 460,
-        size: '175х85х45',
+        size: "175х85х45",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -323,10 +353,11 @@ export const data = {
         ]
     }, {
         id: 13,
-        title: 'Thule',
-        model: 'Dynamic 800',
+        title: "Thule",
+        model: "Dynamic 800",
         volume: 400,
-        size: '204х84х34',
+        size: "204х84х34",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-13.jpg",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -341,10 +372,11 @@ export const data = {
         ]
     }, {
         id: 14,
-        title: 'Thule',
-        model: 'Motion 800',
+        title: "Thule",
+        model: "Motion 800",
         volume: 520,
-        size: '208х80х45',
+        size: "208х80х45",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-14.jpg",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -359,10 +391,11 @@ export const data = {
         ]
     }, {
         id: 15,
-        title: 'Thule',
-        model: 'Dynamic 900',
+        title: "Thule",
+        model: "Dynamic 900",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-15.jpg",
         volume: 520,
-        size: '235х95х38',
+        size: "235х95х38",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
@@ -377,21 +410,35 @@ export const data = {
         ]
     }, {
         id: 16,
-        title: 'Thule',
-        model: 'Motion 900',
-        volume: 670,
-        size: '235х95х47',
+        title: "Свой",
+        image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-16.jpg",
+        model: "Свой",
+        volume: 0,
+        size: "0",
         maxRentDay: 5,
         defaultPrice: {
             days: 40,
-            price: 400
+            price: 0
         },
         rentDays: [
-            { min: 5, max: 6, price: 700 },
-            { min: 7, max: 13, price: 640 },
-            { min: 14, max: 20, price: 580 },
-            { min: 21, max: 29, price: 520 },
-            { min: 30, max: 39, price: 450 }
+            { min: 5, max: 6, price: 0 },
+            { min: 7, max: 13, price: 0 },
+            { min: 14, max: 20, price: 0 },
+            { min: 21, max: 29, price: 0 },
+            { min: 30, max: 39, price: 0 }
         ]
-    }, ]
+    }, ],
+    steps: [{
+        id: 1,
+        title: "Тип",
+        icon_class: "fa fa-map-marker"
+    }, {
+        id: 2,
+        title: "Продукт",
+        icon_class: "fa fa-folder-open"
+    }, {
+        id: 3,
+        title: "Отправить",
+        icon_class: "fa fa-paper-plane"
+    }]
 }
