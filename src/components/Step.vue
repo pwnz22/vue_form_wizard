@@ -3,13 +3,15 @@
         <button
                 class="btn btn-primary prev-step"
                 @click="prevStep"
-                :disabled="firststep">
+                :disabled="firststep"
+                v-scroll-to="{ el: '#app', duration: 500, easing: 'linear', offset: -80 }">
             Назад
         </button>
         <button
                 class="btn btn-primary next-step"
                 @click="nextStep"
-                :disabled="nextstep">
+                :disabled="nextstep"
+                v-scroll-to="{ el: '#app', duration: 500, easing: 'linear', offset: -80 }">
             Вперед
         </button>
         <button

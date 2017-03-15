@@ -9,7 +9,7 @@
             <div class="step-body">
                 <div v-if="currentstep == 1">
                     <div class="row">
-                        <div class="col-md-3" v-for="(type, index) in types">
+                        <div class="col-md-3 col-xs-6" v-for="(type, index) in types" v-if="pickedMine(index)">
                             <input :id="'step01-0' + index" type="radio" :value="index" v-model="picked.type">
                             <label :for="'step01-0' + index">
                                     <div class="thumbnail">
@@ -25,15 +25,24 @@
 
                 <div v-if="currentstep == 2">
                     <div class="row">
-                        <div class="col-md-3" v-for="(product, index) in products" v-if="pickedMine(index)">
+                        <div class="col-md-3 col-xs-6" v-for="(product, index) in products" v-if="pickedMine(index)">
                             <input :id="'step02-0' + index" type="radio" :value="index" v-model="picked.product">
                             <label :for="'step02-0' + index">
                                 <div class="thumbnail">
                                     <img class="img-responsive" :src="product.image" :alt="product.title">
                                     <span class="step02-title">
-                                        <h3>{{ product.title }}</h3>
-                                        <p>{{ product.model }}</p>
-                                        <p>{{ product.size }}</p>
+                                        <div class="step02-item">
+                                            <p>Производитель:</p>
+                                            <h4 class="step-title"> {{ product.title }}</h4>
+                                        </div>
+                                        <div class="step02-item">
+                                            <p>Модель:</p>
+                                            <h4 class="step-title"> {{ product.model }}</h4>
+                                        </div>
+                                        <div class="step02-item">
+                                            <p>Внешние размеры:</p>
+                                            <h4 class="step-title"> {{ product.size }}</h4>
+                                        </div>
                                     </span>
                                 </div>
                             </label>
@@ -42,18 +51,21 @@
                 </div>
 
                 <div v-if="currentstep == 3">
-                    <ul class="list-inline">
-                        <li>
-                            <date-picker v-model="date" inputClass="form-control" @selected="changeStartDate" language="ru" placeholder="Выбрать начальную дату"></date-picker>
-                        </li>
-                        <li>
-                            <date-picker @selected="calculateTotalPrice" inputClass="form-control" v-model="endDate" language="ru" placeholder="Выбрать конечную дату"></date-picker>
-                        </li>
-                    </ul>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4 col-xs-6">
+                                <date-picker v-model="date" inputClass="form-control" @selected="changeStartDate" language="ru" placeholder="Выбрать начальную дату"></date-picker>
+                            </div>
+                            <div class="col-md-4 col-xs-6">
+                                <date-picker @selected="calculateTotalPrice" inputClass="form-control" v-model="endDate" language="ru" placeholder="Выбрать конечную дату"></date-picker>
+                            </div>
+                        </div>
+                    </div>
 
                     <div v-if="rentDays > 4" class="step03-info">
-                        <p>Срок аренды: {{ rentDays }}</p>
-                        <p>Цена {{ totalPrice }}</p>
+                        <p>Срок аренды: <strong>{{ rentDays }}</strong></p>
+                        <p>Цена: <strong>{{ totalPrice }}</strong> <i class="fa fa-rub" aria-hidden="true"></i></p>
                     </div>
                     <div v-else>
                         <div class="alert alert-danger">
@@ -63,37 +75,64 @@
 
                     <div class="row">
                         <div class="form-group col-md-12">
-                            <label id="name" class="col-md-1 control-label">ФИО</label>
-                            <div class="col-md-4">
-                                <input type="text" name="name" class="form-control" v-model="formdata.name">
+                            <div class="row">
+                                <label id="name" class="col-md-2 control-label">ФИО</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-user" aria-hidden="true"></i></button>
+                                        </div>
+                                        <input type="text" name="name" class="form-control" v-model="formdata.name">
+                                    </div>
+                                </div>
+
+                                <label id="phone" class="col-md-2 control-label">Телефон</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-phone" aria-hidden="true"></i></button>
+                                        </div>
+                                        <input type="text" name="phone" class="form-control" v-model="formdata.phone">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label id="phone" class="col-md-1 control-label">Телефон</label>
-                            <div class="col-md-4">
-                                <input type="text" name="phone" class="form-control" v-model="formdata.phone">
+                            <div class="row">
+                                <label id="car_model" class="col-md-2 control-label">Марка автомобиля</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-car" aria-hidden="true"></i></button>
+                                        </div>
+                                        <input type="text" name="car_mark" class="form-control" v-model="formdata.mark">
+                                    </div>
+                                </div>
+
+                                <label id="car_model" class="col-md-2 control-label">Модель автомобиля</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+                                        </div>
+                                        <input type="text" name="car_model" class="form-control" v-model="formdata.model">
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group col-md-12">
-                            <label id="car_model" class="col-md-1 control-label">Марка автомобиля</label>
-                            <div class="col-md-4">
-                                <input type="text" name="car_mark" class="form-control" v-model="formdata.mark">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label id="car_model" class="col-md-1 control-label">Модель автомобиля</label>
-                            <div class="col-md-4">
-                                <input type="text" name="car_model" class="form-control" v-model="formdata.model">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-12">
-                            <label id="car_model" class="col-md-1 control-label">Год выпуска автомобиля</label>
-                            <div class="col-md-4">
-                                <input type="text" name="car_year" class="form-control" v-model="formdata.year">
+                            <div class="row">
+                                <label id="car_model" class="col-md-2 control-label">Год выпуска автомобиля</label>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                                        </div>
+                                        <input type="text" name="car_year" class="form-control" v-model="formdata.year">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -191,6 +230,9 @@
                 if (i == 15 && this.picked.type == 6)
                     return false
 
+                if (this.currentstep == 1 && i == 6 && this.picked.product == 15)
+                    return false
+
                 return true
             },
 
@@ -231,10 +273,6 @@
                 let startTime = moment(this.date)
                 endTime = moment(endTime)
                 this.rentDays = endTime.diff(startTime, 'days')
-                this.rentDays += 1
-
-                if (this.rentDays <= 4)
-                    return
 
                 this.calc()
             },
@@ -256,6 +294,9 @@
             },
 
             sendEmail() {
+                let startDate = moment(this.date).format('DD-MM-YYYY')
+                let endDate = moment(this.endDate).format('DD-MM-YYYY')
+
                 const data = {
                     'Имя': this.formdata.name,
                     'Телефон': this.formdata.phone,
@@ -264,6 +305,7 @@
                     'Год выпуска автомобиля': this.formdata.year,
                     'Срок Аренды': this.rentDays,
                     'Цена': this.totalPrice,
+                    'Даты': 'C ' + startDate + ' до ' + endDate,
                     _subject: "Заказ с сайта arenda-boxteam.ru"
                 }
                 axios.post(`https://formspree.io/${this.email}`, data)
@@ -394,5 +436,13 @@
             color: $wizard-color-neutral;
             padding: 11px 16px;
         }
+    }
+
+    .step02-item p {
+        display: inline-block;
+    }
+
+    .step-title {
+        display: inline-block;
     }
 </style>

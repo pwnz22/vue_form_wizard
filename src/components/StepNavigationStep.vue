@@ -2,7 +2,7 @@
     <li :class="indicatorclass">
         <div class="step"><i :class="step.icon_class"></i></div>
         <div class="caption hidden-xs hidden-sm">
-            Шаг {{ step.id }}: {{ step.title }}
+            {{ step.title }}
         </div>
     </li>
 </template>
