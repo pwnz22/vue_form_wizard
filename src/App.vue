@@ -12,12 +12,12 @@
                         <div class="col-md-3 col-xs-6" v-for="(type, index) in types" v-if="pickedMine(index)">
                             <input :id="'step01-0' + index" type="radio" :value="index" v-model="picked.type">
                             <label :for="'step01-0' + index">
-                                    <div class="thumbnail">
-                                        <img class="img-responsive" :src="type.image" :alt="type.title">
-                                        <span class="step01-title">
-                                            {{ type.title }}
-                                        </span>
-                                    </div>
+                                <div class="thumbnail">
+                                    <img class="img-responsive" :src="type.image" :alt="type.title">
+                                    <span class="step01-title">
+                                        {{ type.title }}
+                                    </span>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                         <div class="col-md-3 col-xs-6" v-for="(product, index) in products" v-if="pickedMine(index)">
                             <input :id="'step02-0' + index" type="radio" :value="index" v-model="picked.product">
                             <label :for="'step02-0' + index">
-                                <div class="thumbnail">
+                                <div class="thumbnail" v-if="product.volume != 0">
                                     <img class="img-responsive" :src="product.image" :alt="product.title">
                                     <span class="step02-title">
                                         <div class="step02-item">
@@ -45,6 +45,14 @@
                                         </div>
                                     </span>
                                 </div>
+                                <div class="thumbnail" v-else>
+                                    <img class="img-responsive" :src="product.image" :alt="product.title">
+                                    <span class="step02-title">
+                                        <div class="step02-item">
+                                            <h4 class="step-title">{{ product.title }}</h4>
+                                        </div>
+                                    </span>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -55,10 +63,10 @@
                         <div class="row">
                             <div class="col-md-2"></div>
                             <div class="col-md-4 col-xs-6">
-                                <date-picker v-model="date" inputClass="form-control" @selected="changeStartDate" language="ru" placeholder="Выбрать начальную дату"></date-picker>
+                                <date-picker :value="date" inputClass="form-control" @selected="changeStartDate" language="ru" placeholder="Выбрать начальную дату"></date-picker>
                             </div>
                             <div class="col-md-4 col-xs-6">
-                                <date-picker @selected="calculateTotalPrice" inputClass="form-control" v-model="endDate" language="ru" placeholder="Выбрать конечную дату"></date-picker>
+                                <date-picker @selected="calculateTotalPrice" inputClass="form-control" :value="endDate" language="ru" placeholder="Выбрать конечную дату"></date-picker>
                             </div>
                         </div>
                     </div>
@@ -164,7 +172,7 @@
     import Step from './components/Step'
     import StepNavigation from './components/StepNavigation'
     import DatePicker from 'vuejs-datepicker';
-    import { data } from './data'
+    // import { data } from './data'
     import moment from 'moment'
 
     export default {
@@ -175,7 +183,7 @@
             return {
                 currentstep: 1,
 
-                date: moment().format(),
+                date: moment().startOf('day').format(),
 
                 email: null,
 
@@ -271,15 +279,16 @@
 
             calculateTotalPrice(endTime) {
                 let startTime = moment(this.date)
-                endTime = moment(endTime)
-                this.rentDays = endTime.diff(startTime, 'days')
+                this.endDate = moment(endTime).format()
+                this.rentDays = moment(endTime).diff(startTime, 'days')
 
                 this.calc()
             },
 
             changeStartDate(e) {
-                this.date = moment(e).add(5, 'days').format()
-                this.endDate = this.date
+                this.date = moment(e).format()
+                let startTime = moment(e).add(5, 'days').format()
+                this.endDate = startTime
                 this.rentDays = 5
 
                 this.calc()

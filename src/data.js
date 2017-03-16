@@ -410,7 +410,7 @@ export const data = {
         ]
     }, {
         id: 16,
-        title: "Свой",
+        title: "У меня есть свой автобокс",
         image: "//arenda-boxteam.ru/wp-content/uploads/img/step02-16.jpg",
         model: "Свой",
         volume: 0,
