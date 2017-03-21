@@ -16,7 +16,7 @@
         </button>
         <button
                 class="btn btn-primary"
-                :disabled="rentDays <= 4"
+                :disabled="rentDays <= 4 || sendEmailFormdata"
                 @click="sendOrder"
                 v-if="laststep">
                 Отправить
@@ -26,7 +26,7 @@
 
 <script>
     export default {
-        props: ['step', 'stepcount', 'currentstep', 'picked', 'rentDays'],
+        props: ['step', 'stepcount', 'currentstep', 'picked', 'rentDays', 'sendEmailFormdata'],
 
         computed: {
             active() {
@@ -38,7 +38,7 @@
             },
 
             nextstep() {
-                if (this.picked.type === null)
+                if (this.picked.type === null && this.picked.nextType === null)
                     return true
 
                 if (this.currentstep == 2 && this.picked.product === null)

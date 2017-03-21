@@ -9,9 +9,20 @@
             <div class="step-body">
                 <div v-if="currentstep == 1">
                     <div class="row">
-                        <div class="col-md-3 col-xs-6" v-for="(type, index) in types" v-if="pickedMine(index)">
+                        <div class="col-md-3 col-xs-6" v-for="(type, index) in types">
                             <input :id="'step01-0' + index" type="radio" :value="index" v-model="picked.type">
                             <label :for="'step01-0' + index">
+                                <div class="thumbnail">
+                                    <img class="img-responsive" :src="type.image" :alt="type.title">
+                                    <span class="step01-title">
+                                        {{ type.title }}
+                                    </span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="col-md-3 col-xs-6" v-for="(type, index) in nextTypes" v-if="pickedMine(index)">
+                            <input :id="'step01-1' + index" type="radio" :value="index" v-model="picked.nextType">
+                            <label :for="'step01-1' + index">
                                 <div class="thumbnail">
                                     <img class="img-responsive" :src="type.image" :alt="type.title">
                                     <span class="step01-title">
@@ -141,6 +152,28 @@
                                         <input type="text" name="car_year" class="form-control" v-model="formdata.year">
                                     </div>
                                 </div>
+
+                                <div class="col-md-6">
+                                    <div class="terms">
+                                        <span class="fa-stack fa-lg" aria-hidden="true" @mouseover="showInfo = true">
+                                            <i class="fa fa-info fa-stack-1x"></i>
+                                        </span>
+                                        <strong>&nbsp; Условия аренды.</strong>
+
+                                        <transition name="fade">
+                                            <div class="terms-info" v-if="showInfo" @mouseleave="showInfo = false" v-html="terms"></div>
+                                        </transition>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- ./form-group -->
+
+                        <div class="form-group col-md-6">
+                            <div class="row">
+                                <label id="car_model" class="col-md-4 control-label">Примечание</label>
+                                <div class="col-md-8">
+                                    <textarea v-model="review" class="form-control"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -150,6 +183,7 @@
             <step
                 v-for="(step, index) in steps"
                 :key="index"
+                :send-email-formdata="sendEmailDisabler"
                 :step="step"
                 :stepcount="steps.length"
                 :picked="picked"
@@ -172,7 +206,7 @@
     import Step from './components/Step'
     import StepNavigation from './components/StepNavigation'
     import DatePicker from 'vuejs-datepicker';
-    // import { data } from './data'
+    // import data from './data.json'
     import moment from 'moment'
 
     export default {
@@ -183,9 +217,12 @@
             return {
                 currentstep: 1,
 
+                showInfo: false,
+
+                review: '',
+
                 date: moment().startOf('day').format(),
 
-                email: null,
 
                 endDate: null,
 
@@ -193,14 +230,18 @@
 
                 picked: {
                     type: null,
+                    nextType: null,
                     product: null
                 },
 
                 totalPrice: 0,
 
+                email: null,
                 types: null,
+                nextTypes: null,
                 products: null,
                 steps: null,
+                terms: null,
 
                 formdata: {
                     name: null,
@@ -211,6 +252,12 @@
                 },
 
                 ordered: false
+            }
+        },
+
+        computed: {
+            sendEmailDisabler() {
+                return (this.formdata.name === null || this.formdata.phone === null)
             }
         },
 
@@ -228,9 +275,11 @@
                 axios.get('/wp-content/themes/launch/js/calc/data.json')
                     .then(response => {
                         this.types = response.data.types
+                        this.nextTypes = response.data.nextTypes
                         this.products = response.data.products
                         this.steps = response.data.steps
                         this.email = response.data.email
+                        this.terms = response.data.terms
                     })
             },
 
@@ -238,7 +287,7 @@
                 if (i == 15 && this.picked.type == 6)
                     return false
 
-                if (this.currentstep == 1 && i == 6 && this.picked.product == 15)
+                if (this.currentstep == 1 && i == 3 && this.picked.product == 15)
                     return false
 
                 return true
@@ -252,6 +301,9 @@
             },
 
             calculatePrice(type, diff) {
+                if (! type)
+                    return 0
+
                 function between(x, min, max) {
                     return x >= min && x <= max
                 }
@@ -273,8 +325,14 @@
 
             calc() {
                 let type = this.types[this.picked.type]
+                let nextType = this.nextTypes[this.picked.nextType] || null
                 let product = this.products[this.picked.product]
-                this.totalPrice = this.calculatePrice(type, this.rentDays) + this.calculatePrice(product, this.rentDays)
+
+                let typePrice = this.calculatePrice(type, this.rentDays)
+                let nextTypePrice = this.calculatePrice(nextType, this.rentDays)
+                let productPrice = this.calculatePrice(product, this.rentDays)
+
+                this.totalPrice =  typePrice + nextTypePrice + productPrice
             },
 
             calculateTotalPrice(endTime) {
@@ -306,16 +364,23 @@
                 let startDate = moment(this.date).format('DD-MM-YYYY')
                 let endDate = moment(this.endDate).format('DD-MM-YYYY')
 
+                let type = this.types[this.picked.type] || null
+                let nextType = this.nextTypes[this.picked.nextType] || null
+                let product = this.products[this.picked.product]
+
                 const data = {
+                    'Модель автомобиля': this.formdata.model,
                     'Имя': this.formdata.name,
                     'Телефон': this.formdata.phone,
                     'Марка автомобиля': this.formdata.mark,
-                    'Модель автомобиля': this.formdata.model,
                     'Год выпуска автомобиля': this.formdata.year,
                     'Срок Аренды': this.rentDays,
+                    'Багажник': type ? type.title : 'Не выбрано.',
+                    'Велокрепление': nextType ? nextType.title : 'Не выбрано.',
+                    'Автобокс': product.title,
                     'Цена': this.totalPrice,
-                    'Даты': 'C ' + startDate + ' до ' + endDate,
-                    _subject: "Заказ с сайта arenda-boxteam.ru"
+                    'Примечание': this.review,
+                    'Даты': 'C ' + startDate + ' до ' + endDate
                 }
                 axios.post(`https://formspree.io/${this.email}`, data)
                     .then(response => this.ordered = true)
@@ -341,6 +406,21 @@
         margin: 0;
         background-color: #f6f6f6;
         font-family: 'Roboto', sans-serif;
+    }
+
+    .terms {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        &-info {
+            position: absolute;
+            top: 33px;
+            left: 0;
+            height: 240px;
+            overflow: hidden;
+            overflow-y: scroll;
+        }
     }
 
     .container {
@@ -453,5 +533,11 @@
 
     .step-title {
         display: inline-block;
+    }
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0
     }
 </style>
