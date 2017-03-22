@@ -10,7 +10,7 @@
                 <div v-if="currentstep == 1">
                     <div class="row">
                         <div class="col-md-3 col-xs-6" v-for="(type, index) in types">
-                            <input :id="'step01-0' + index" type="radio" :value="index" v-model="picked.type">
+                            <input :id="'step01-0' + index" type="radio" :value="index" v-model="picked.type" :disabled="pickedMy">
                             <label :for="'step01-0' + index">
                                 <div class="thumbnail">
                                     <img class="img-responsive" :src="type.image" :alt="type.title">
@@ -74,10 +74,12 @@
                         <div class="row">
                             <div class="col-md-2"></div>
                             <div class="col-md-4 col-xs-6">
-                                <date-picker :value="date" inputClass="form-control" @selected="changeStartDate" language="ru" placeholder="Выбрать начальную дату"></date-picker>
+                                <date-picker :value="date" inputClass="form-control" @selected="changeStartDate"
+                                             language="ru" placeholder="Выбрать начальную дату"></date-picker>
                             </div>
                             <div class="col-md-4 col-xs-6">
-                                <date-picker @selected="calculateTotalPrice" inputClass="form-control" :value="endDate" language="ru" placeholder="Выбрать конечную дату"></date-picker>
+                                <date-picker @selected="calculateTotalPrice" inputClass="form-control" :value="endDate"
+                                             language="ru" placeholder="Выбрать конечную дату"></date-picker>
                             </div>
                         </div>
                     </div>
@@ -89,6 +91,9 @@
                     <div v-else>
                         <div class="alert alert-danger">
                             Минимальный срок аренды от 5 дней.
+
+
+
                         </div>
                     </div>
 
@@ -99,7 +104,8 @@
                                 <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-user" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-default" area-label="bold"><i
+                                                class="fa fa-user" aria-hidden="true"></i></button>
                                         </div>
                                         <input type="text" name="name" class="form-control" v-model="formdata.name">
                                     </div>
@@ -109,7 +115,8 @@
                                 <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-phone" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-default" area-label="bold"><i
+                                                class="fa fa-phone" aria-hidden="true"></i></button>
                                         </div>
                                         <input type="text" name="phone" class="form-control" v-model="formdata.phone">
                                     </div>
@@ -123,7 +130,8 @@
                                 <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-car" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-default" area-label="bold"><i
+                                                class="fa fa-car" aria-hidden="true"></i></button>
                                         </div>
                                         <input type="text" name="car_mark" class="form-control" v-model="formdata.mark">
                                     </div>
@@ -133,9 +141,11 @@
                                 <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-info-circle" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-default" area-label="bold"><i
+                                                class="fa fa-info-circle" aria-hidden="true"></i></button>
                                         </div>
-                                        <input type="text" name="car_model" class="form-control" v-model="formdata.model">
+                                        <input type="text" name="car_model" class="form-control"
+                                               v-model="formdata.model">
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +157,8 @@
                                 <div class="col-md-4">
                                     <div class="input-group">
                                         <div class="input-group-btn">
-                                            <button type="button" class="btn btn-default" area-label="bold"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                                            <button type="button" class="btn btn-default" area-label="bold"><i
+                                                class="fa fa-calendar" aria-hidden="true"></i></button>
                                         </div>
                                         <input type="text" name="car_year" class="form-control" v-model="formdata.year">
                                     </div>
@@ -155,14 +166,17 @@
 
                                 <div class="col-md-6">
                                     <div class="terms">
-                                        <span class="fa-stack fa-lg" aria-hidden="true" @mouseover="showInfo = true">
+                                        <span class="fa-stack fa-lg" aria-hidden="true" @click="showModal = true">
                                             <i class="fa fa-info fa-stack-1x"></i>
                                         </span>
                                         <strong>&nbsp; Условия аренды.</strong>
 
-                                        <transition name="fade">
-                                            <div class="terms-info" v-if="showInfo" @mouseleave="showInfo = false" v-html="terms"></div>
-                                        </transition>
+                                        <modal @close="showModal = false" v-if="showModal">
+                                            <div slot="content">
+                                                <div class="terms-info" v-html="terms"></div>
+                                            </div>
+                                        </modal>
+
                                     </div>
                                 </div>
                             </div>
@@ -206,18 +220,20 @@
     import Step from './components/Step'
     import StepNavigation from './components/StepNavigation'
     import DatePicker from 'vuejs-datepicker';
-    // import data from './data.json'
     import moment from 'moment'
+    import Modal from './components/Modal'
+
+//    import data from './data.json'
 
     export default {
         name: 'app',
-        components: { Step, StepNavigation, DatePicker },
+        components: {Step, StepNavigation, DatePicker, Modal},
 
         data() {
             return {
                 currentstep: 1,
 
-                showInfo: false,
+                showModal: false,
 
                 review: '',
 
@@ -258,6 +274,11 @@
         computed: {
             sendEmailDisabler() {
                 return (this.formdata.name === null || this.formdata.phone === null)
+            },
+
+            pickedMy() {
+                this.picked.type = null
+                return (this.picked.nextType === 3)
             }
         },
 
@@ -301,12 +322,13 @@
             },
 
             calculatePrice(type, diff) {
-                if (! type)
+                if (!type)
                     return 0
 
                 function between(x, min, max) {
                     return x >= min && x <= max
                 }
+
                 let calculatedPrice = ''
 
                 if (diff < type.maxRentDay)
@@ -332,7 +354,7 @@
                 let nextTypePrice = this.calculatePrice(nextType, this.rentDays)
                 let productPrice = this.calculatePrice(product, this.rentDays)
 
-                this.totalPrice =  typePrice + nextTypePrice + productPrice
+                this.totalPrice = typePrice + nextTypePrice + productPrice
             },
 
             calculateTotalPrice(endTime) {
@@ -408,21 +430,6 @@
         font-family: 'Roboto', sans-serif;
     }
 
-    .terms {
-        display: flex;
-        align-items: center;
-        position: relative;
-
-        &-info {
-            position: absolute;
-            top: 33px;
-            left: 0;
-            height: 240px;
-            overflow: hidden;
-            overflow-y: scroll;
-        }
-    }
-
     .container {
         background-color: #fff;
     }
@@ -435,8 +442,6 @@
             display: block;
         }
     }
-
-
 
     .step-indicator {
         border-collapse: separate;
@@ -534,9 +539,11 @@
     .step-title {
         display: inline-block;
     }
+
     .fade-enter-active, .fade-leave-active {
         transition: opacity .5s
     }
+
     .fade-enter, .fade-leave-to {
         opacity: 0
     }
