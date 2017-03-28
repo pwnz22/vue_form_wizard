@@ -399,7 +399,7 @@
                     'Срок Аренды': this.rentDays,
                     'Багажник': type ? type.title : 'Не выбрано.',
                     'Велокрепление': nextType ? nextType.title : 'Не выбрано.',
-                    'Автобокс': product.title,
+                    'Автобокс': product.title + ' ' + product.model,
                     'Цена': this.totalPrice,
                     'Примечание': this.review,
                     'Даты': 'C ' + startDate + ' до ' + endDate
